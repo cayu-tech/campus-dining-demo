@@ -1,0 +1,40 @@
+[project]
+name = "cayu-campus-dining-demo"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = ["cayu[server,files,recording]", "campus-catalog-fixture"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.15"]
+viewer = ["playwright==1.62.0", "cryptography>=46", "httpx>=0.28"]
+
+[tool.uv]
+cache-dir = ".cayu/uv-cache"
+
+[tool.uv.sources]
+campus-catalog-fixture = { path = "catalog-app", editable = true }
+cayu = { git = "https://github.com/cayu-dev/cayu.git", rev = "c5816d06f2555bf85cbb8f22f27e9b94e85f0c2b" }
+
+[tool.cayu]
+factory = "app:build_app"
+eval_target = "evals.agent:build_eval"
+
+[tool.cayu.session_store]
+backend = "sqlite"
+path = "data/cayu.db"
+
+[tool.cayu.scaffold]
+convention = 1
+preset = "agent"
+database = "sqlite"
+provider = "openai"
+execution = "none"
+capabilities = ["approvals", "artifacts", "evals", "human-input", "knowledge", "memory", "observability", "recovery", "tasks"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+extend-exclude = ["browser-worker/src"] # Exact pinned upstream worker build inputs
+line-length = 100

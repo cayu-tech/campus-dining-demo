@@ -1,0 +1,15 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "campus-catalog-fixture"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = ["fastapi>=0.115,<1", "jinja2>=3.1,<4", "uvicorn>=0.30,<1"]
+
+[project.scripts]
+catalog-portal = "catalog_app.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["catalog_app"]

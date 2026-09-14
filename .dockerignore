@@ -1,0 +1,17 @@
+.git
+.venv
+.cayu
+data
+validation
+**/__pycache__
+**/node_modules
+viewer-ui
+.env
+.env.*
+**/.venv
+**/.pytest_cache
+**/.ruff_cache
+**/*.egg-info
+**/*.pem
+**/*.key
+**/*.webm
