@@ -1,0 +1,36 @@
+[project]
+name = "campus-dining-demo"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = ["cayu[postgres,server]==0.10.0"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.cayu]
+factory = "app:build_app"
+eval_target = "evals.agent:build_eval"
+
+# `cayu serve` requires CAYU_OPERATOR_USERNAME and CAYU_OPERATOR_PASSWORD
+# (HTTP Basic auth) and refuses to start without them. `cayu serve --dev` stays
+# open for trusted local development on a loopback host.
+[tool.cayu.serve]
+auth = "cayu.server.environment_auth:OPERATOR_BASIC_AUTH"
+
+[tool.cayu.session_store]
+backend = "sqlite"
+path = "data/cayu.db"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+[tool.uv]
+cache-dir = ".cayu/uv-cache"
+
+[tool.cayu.scaffold]
+convention = 1
+preset = "agent"
+provider = "openai"
+execution = "none"
+capabilities = ["approvals", "artifacts", "evals", "human-input", "knowledge", "memory", "observability", "recovery", "tasks"]
+extensions = []
