@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 _SCAFFOLDED_PROVIDER = "openai"
 SCAFFOLDED_DATABASE = "sqlite"
-RUNTIME_SHA = "c5816d06f2555bf85cbb8f22f27e9b94e85f0c2b"
+RUNTIME_SHA = "8355cca9f8783adae5ebd2bf42643827ccd24eec"
 # A transition includes old-worker shutdown, Python imports, and new-worker startup.
 PRESENTER_STARTUP_SECONDS = 120
 PRESENTER_TRANSITION_SECONDS = 180
@@ -64,8 +64,13 @@ def settings_from_environment():
 
 
 def configured_api_key():
-    key = os.environ.get("OPENAI_API_KEY")
-    return key
+    if configured_base_url():
+        return os.environ.get("CAYU_API_KEY")
+    return os.environ.get("OPENAI_API_KEY")
+
+
+def configured_base_url():
+    return os.environ.get("CAYU_BASE_URL")
 
 
 def configured_model():
@@ -73,8 +78,8 @@ def configured_model():
 
 
 def configured_provider_name():
-    return "openai"
+    return "codex-lb" if configured_base_url() else "openai"
 
 
 def configured_provider_choice():
-    return "openai"
+    return configured_provider_name()

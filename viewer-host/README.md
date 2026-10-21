@@ -1,6 +1,6 @@
 # Protected local presenter
 
-The trusted application container hosts the installed Cayu Runtime and a separately built dashboard. The agent browser runs in its own Docker allocation. Runtime is pinned to public commit `c5816d06f2555bf85cbb8f22f27e9b94e85f0c2b`. The [browser worker](../browser-worker/README.md) uses unmodified inputs from the same commit.
+The trusted application container hosts the installed Cayu Runtime and a separately built dashboard. The agent browser runs in its own Docker allocation. Runtime is pinned to public commit `8355cca9f8783adae5ebd2bf42643827ccd24eec` (version 0.6.1). The [browser worker](../browser-worker/README.md) uses unmodified inputs from the same commit.
 
 ## Build and launch
 
@@ -9,12 +9,12 @@ Build the installed Runtime wheel from a disposable checkout; the wheel is inten
 ```sh
 runtime_build_dir="$(mktemp -d)/runtime"
 git clone https://github.com/cayu-dev/cayu.git "$runtime_build_dir"
-git -C "$runtime_build_dir" checkout --detach c5816d06f2555bf85cbb8f22f27e9b94e85f0c2b
+git -C "$runtime_build_dir" checkout --detach 8355cca9f8783adae5ebd2bf42643827ccd24eec
 npm ci --prefix "$runtime_build_dir/dashboard"
 npm run build:package --prefix "$runtime_build_dir/dashboard"
 uv build --wheel --out-dir viewer-host "$runtime_build_dir"
 docker build -t cayu-browser-fetch:13-playwright-1.62.0 browser-worker
-docker build -f viewer-host/Dockerfile -t cayu-campus-viewer:c5816d0 .
+docker build -f viewer-host/Dockerfile -t cayu-campus-viewer:8355cca .
 ```
 
 The browser image tag is shared by the local Runtime adapter. Do not rebuild it while another evaluation uses it. The trusted application host alone mounts Docker management access. No service port is published beyond loopback.
@@ -32,13 +32,14 @@ Each new presenter uses username `local-presenter` and a randomly generated
 password stored in its private configuration. The `open` command reads that
 password automatically.
 
-Set `OPENAI_API_KEY` in your shell; the app uses OpenAI directly at
-`https://api.openai.com/v1`. The launcher forwards the environment variable to the
-trusted presenter container, never to the browser worker or dashboard. It does
-not write the key into the source or presenter configuration files. You can set
-`CAYU_MODEL` to override the default `gpt-5.6-sol`. Cayu uses its native
-non-streaming Responses mode: the browser preview remains live, and the final
-answer appears together when the model finishes.
+Set the provider credential in your shell. OpenAI uses `OPENAI_API_KEY`; a
+compatible Chat Completions service uses `CAYU_BASE_URL` and `CAYU_API_KEY`.
+The launcher forwards the selected credential to the trusted presenter
+container, never to the browser worker or dashboard. It does not write the key
+into the source or presenter configuration files. You can set `CAYU_MODEL` to
+override the default `gpt-5.6-sol`. OpenAI uses native non-streaming Responses;
+compatible endpoints use the Chat Completions adapter. The browser preview
+remains live in both modes.
 
 On macOS, with your API key copied to the clipboard:
 

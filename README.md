@@ -14,7 +14,7 @@ Ask to submit only when ready. Review the exact product, cases, cost, meal revis
 
 ## Setup
 
-Requires Python 3.11+, uv, Node 22.18+ (validated with 24.13.1), npm, Docker, and an OpenAI API key. Cayu is pinned to public commit `c5816d06f2555bf85cbb8f22f27e9b94e85f0c2b`.
+Requires Python 3.11+, uv, Node 22.18+ (validated with 24.13.1), npm, Docker, and a configured model provider. Cayu is pinned to public commit `8355cca9f8783adae5ebd2bf42643827ccd24eec` (version 0.6.1).
 
 ```sh
 uv sync --extra dev --extra viewer --frozen
@@ -23,7 +23,7 @@ npm ci --prefix viewer-ui
 npm run build --prefix viewer-ui
 ```
 
-Follow [viewer setup](viewer-host/README.md) to build the images and start the protected local presenter. Provider access must be provisioned separately; no credentials or presenter state are included.
+Follow [viewer setup](viewer-host/README.md) to build the images and start the protected local presenter. Provider access must be provisioned separately; no credentials or presenter state are included. For a compatible Chat Completions endpoint, set `CAYU_BASE_URL` (including its `/v1` path) and `CAYU_API_KEY`; the key is never stored in source.
 
 ## Verify
 

@@ -13,7 +13,7 @@ cache-dir = ".cayu/uv-cache"
 
 [tool.uv.sources]
 campus-catalog-fixture = { path = "catalog-app", editable = true }
-cayu = { git = "https://github.com/cayu-dev/cayu.git", rev = "c5816d06f2555bf85cbb8f22f27e9b94e85f0c2b" }
+cayu = { git = "https://github.com/cayu-dev/cayu.git", rev = "8355cca9f8783adae5ebd2bf42643827ccd24eec" }
 
 [tool.cayu]
 factory = "app:build_app"

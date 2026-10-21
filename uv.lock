@@ -61,8 +61,8 @@ requires-dist = [
 
 [[package]]
 name = "cayu"
-version = "0.5.2"
-source = { git = "https://github.com/cayu-dev/cayu.git?rev=c5816d06f2555bf85cbb8f22f27e9b94e85f0c2b#c5816d06f2555bf85cbb8f22f27e9b94e85f0c2b" }
+version = "0.6.1"
+source = { git = "https://github.com/cayu-dev/cayu.git?rev=8355cca9f8783adae5ebd2bf42643827ccd24eec#8355cca9f8783adae5ebd2bf42643827ccd24eec" }
 dependencies = [
     { name = "certifi" },
     { name = "cryptography" },
@@ -112,7 +112,7 @@ viewer = [
 [package.metadata]
 requires-dist = [
     { name = "campus-catalog-fixture", editable = "catalog-app" },
-    { name = "cayu", extras = ["server", "files", "recording"], git = "https://github.com/cayu-dev/cayu.git?rev=c5816d06f2555bf85cbb8f22f27e9b94e85f0c2b" },
+    { name = "cayu", extras = ["server", "files", "recording"], git = "https://github.com/cayu-dev/cayu.git?rev=8355cca9f8783adae5ebd2bf42643827ccd24eec" },
     { name = "cryptography", marker = "extra == 'viewer'", specifier = ">=46" },
     { name = "httpx", marker = "extra == 'viewer'", specifier = ">=0.28" },
     { name = "playwright", marker = "extra == 'viewer'", specifier = "==1.62.0" },

@@ -3,10 +3,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends docker-cli ca-c
     && rm -rf /var/lib/apt/lists/*
 COPY viewer-host/requirements.lock /tmp/requirements.lock
 RUN python -m pip install --no-cache-dir --require-hashes -r /tmp/requirements.lock
-COPY viewer-host/cayu-0.5.2-py3-none-any.whl /tmp/cayu-0.5.2-py3-none-any.whl
-RUN python -m pip install --no-cache-dir --no-deps /tmp/cayu-0.5.2-py3-none-any.whl
+COPY viewer-host/cayu-0.6.1-py3-none-any.whl /tmp/cayu-0.6.1-py3-none-any.whl
+RUN python -m pip install --no-cache-dir --no-deps /tmp/cayu-0.6.1-py3-none-any.whl
 COPY catalog-app /opt/catalog-app
 RUN python -m pip install --no-cache-dir --no-deps /opt/catalog-app \
     && python -m pip check
-LABEL dev.cayu.campus.runtime="c5816d06f2555bf85cbb8f22f27e9b94e85f0c2b"
+LABEL dev.cayu.campus.runtime="8355cca9f8783adae5ebd2bf42643827ccd24eec"
 CMD ["sleep", "infinity"]

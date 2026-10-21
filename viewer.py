@@ -121,8 +121,7 @@ def main():
     if args.command == "start":
         config = start_host(root, sessions=args.session or ["dinner", "comparison", "rice-lunch", "vegetable-side"])
         print(f"Protected operator server: {config['origin']}/operator")
-        print("Login: local-presenter / demo")
-        print("Open the URL in your browser.")
+        print(f"Open with: uv run --no-sync python viewer.py open --state-dir {root}")
     elif args.command == "open":
         asyncio.run(open_panel(root))
     elif args.command == "restart-worker":

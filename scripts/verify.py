@@ -23,7 +23,7 @@ def main():
             ),
         )
         env = dict(os.environ)
-        for name in ("CAMPUS_VIEWER_STATE", "OPENAI_API_KEY"):
+        for name in ("CAMPUS_VIEWER_STATE", "OPENAI_API_KEY", "CAYU_BASE_URL", "CAYU_API_KEY"):
             env.pop(name, None)
         env.update(
             CAMPUS_DATA_DIR=str(project / "data"),

@@ -23,10 +23,11 @@ from configuration.settings import (
     ROOT,
     RUNTIME_SHA,
     configured_api_key,
+    configured_base_url,
     configured_model,
 )
 
-IMAGE = "cayu-campus-viewer:c5816d0"
+IMAGE = "cayu-campus-viewer:8355cca"
 
 
 def docker(*args, check=True):
@@ -71,11 +72,16 @@ def start_host(root, *, mode="live", sessions=("dinner", "comparison", "rice-lun
     if mode != "live":
         raise ValueError("Only live presenter mode is supported")
     if not configured_api_key():
-        raise ValueError("Set OPENAI_API_KEY before starting a live viewer host")
+        credential = "CAYU_API_KEY" if configured_base_url() else "OPENAI_API_KEY"
+        raise ValueError(f"Set {credential} before starting a live viewer host")
     root = root.resolve()
     root.mkdir(mode=0o700, parents=True, exist_ok=False)
     (root / "staging").mkdir(mode=0o700)
     pin = certificates(root)
+    provider_environment = (
+        ["--env", "CAYU_BASE_URL", "--env", "CAYU_API_KEY"]
+        if configured_base_url() else ["--env", "OPENAI_API_KEY"]
+    )
     control = docker(
         "run", "-d", "--init", "--cidfile", str(root / "container.id"),
         "--mount", "type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock",
@@ -83,7 +89,8 @@ def start_host(root, *, mode="live", sessions=("dinner", "comparison", "rice-lun
         "--mount", f"type=bind,src={root},dst={root}",
         "--env", f"CAMPUS_VIEWER_STATE={root}",
         "--env", f"CAMPUS_DATA_DIR={root / 'data'}",
-        "--env", "CAMPUS_BROWSER=1", "--env", "OPENAI_API_KEY",
+        "--env", "CAMPUS_BROWSER=1",
+        *provider_environment,
         "--env", f"CAYU_MODEL={configured_model()}",
         "--env", f"TMPDIR={root / 'staging'}",
         "-p", "127.0.0.1::8443", IMAGE,

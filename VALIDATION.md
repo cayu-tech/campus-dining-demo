@@ -1,8 +1,36 @@
-# Validation — 2026-09-14
+# Validation — 2026-09-23
 
-Runtime: public Cayu `0.5.2`, commit
-`c5816d06f2555bf85cbb8f22f27e9b94e85f0c2b`. The Python dependency,
-presenter wheel, and unmodified browser-worker inputs use this same commit.
+## Current browser-enabled presenter
+
+Built `cayu-campus-viewer:8355cca` from the pinned public 0.6.1 wheel and
+rebuilt the matching browser worker and custom dashboard. The presenter uses
+`https://codex-lb.cayu.ai/v1` with environment-only credentials. Both provider
+choices now forward only their selected credential names into the container.
+All 59 Python tests, Ruff, and `git diff --check` passed; both dashboard builds
+and presenter `pip check` passed.
+
+A fresh protected presenter completed the two live `comparison` turns:
+seven peeled-potato cases for $175, followed by four whole-potato cases for
+$96 after restoring full staffing. The rehearsal verified both drafts and
+zero orders. Its first-turn screenshot shows the live supplier preview.
+The immediate automated playback assertion failed. The media response and
+range requests succeeded, the downloaded WebM decoded without errors, and
+refreshing the completed session restored playback. The visible browser then
+played the second recording past eight seconds. This is a successful manual
+playback check after refresh, not a passing unattended browser rehearsal.
+Private screenshots are in `validation/private/rehearsal-20260923/`.
+
+## Earlier upgrade checks
+
+Runtime upgrade verification: public Cayu `0.6.1`, commit
+`8355cca9f8783adae5ebd2bf42643827ccd24eec`. Fresh-store inspection and strict
+checks passed, all 55 Python tests passed, and the native nine-case eval suite
+passed. Existing populated stores remain on the pre-upgrade schema and were not
+modified.
+
+The presenter, browser-worker, Docker, and live-provider evidence below is
+historical evidence from the previous `0.5.2` runtime pin; it has not been
+reissued as evidence for this upgrade.
 Provider: OpenAI Responses at `https://api.openai.com/v1`, configured through
 `OPENAI_API_KEY`; model defaults to `gpt-5.6-sol` and supports `CAYU_MODEL`.
 
